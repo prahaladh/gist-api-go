@@ -1,5 +1,6 @@
 # --- Stage 1: Build Stage ---
-FROM golang:1.25-alpine AS builder
+ARG GO_BASE_IMAGE=1.25-alpine
+FROM golang:${GO_BASE_IMAGE} AS builder
 
 # Install build dependencies and update for security patches
 RUN apk update && apk add --no-cache git ca-certificates && update-ca-certificates
