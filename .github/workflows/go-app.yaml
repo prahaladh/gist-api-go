@@ -9,6 +9,11 @@ jobs:
     environment: production
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ vars.GO_VERSION}}
 
       - name: Test this code before building
         run: go test ../.. . && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
