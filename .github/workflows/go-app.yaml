@@ -32,4 +32,4 @@ jobs:
           echo "IMAGE_TAG=$(echo ${GITHUB_SHA_SHORT}:${APP_VERSION})" >> $GITHUB_ENV
 
       - name: docker build & push
-        run: docker build --build-arg VERSION=${{ env.APP_VERSION }} --build-arg GIT_COMMIT=${{ env.COMMIT_SHA }} -t ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }} .
+        run: docker build --build-arg VERSION=${{ env.APP_VERSION }} --build-arg GIT_COMMIT=${{ env.GITHUB_SHA_SHORT }} -t ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }} .
