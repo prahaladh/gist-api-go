@@ -33,5 +33,7 @@ jobs:
           echo "GITHUB_SHA_SHORT=${SHORT_SHA}" >> $GITHUB_ENV
           echo "APP_VERSION=${VERSION}" >> $GITHUB_ENV
 
-      - name: docker build & push
+      - name: docker build
         run: docker build --build-arg VERSION=${{ env.APP_VERSION }} --build-arg GIT_COMMIT=${{ env.GITHUB_SHA_SHORT }} -t ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }} .
+      - name: docker build
+        run: docker push ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }} .
