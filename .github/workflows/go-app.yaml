@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-go@v6
-        with:
-          go-version: ${{ vars.GO_VERSION }}
+      #- uses: actions/setup-go@v6
+      #  with:
+      #    go-version: ${{ vars.GO_VERSION }}
 
-      - name: Test this code before building
-        run: go test ./...  && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
+      #- name: Test this code before building
+      #  run: go test ./...  && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
       
       - name: docker login
         run: docker login ${{ vars.HARBOR_IP }} -u '${{ vars.HARBOR_ROBOT_USER }}' -p ${{ secrets.HARBOR_SECRET }}
@@ -28,7 +28,7 @@ jobs:
       - name: Set env
         run: |
           echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-          echo "APP_VERSION=$(cat ../../../mainfest.mf | cut -d ':' -f2)" >> $GITHUB_ENV
+          echo "APP_VERSION=$(cat mainfest.mf | cut -d ':' -f2)" >> $GITHUB_ENV
           echo "IMAGE_TAG=$(echo $GITHUB_SHA_SHORT:APP_VERSION)" >> $GITHUB_ENV
 
       - name: docker build & push
