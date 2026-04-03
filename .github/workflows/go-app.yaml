@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      #- uses: actions/setup-go@v6
-      #  with:
-      #    go-version: ${{ vars.GO_VERSION }}
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ vars.GO_VERSION }}
 
-      #- name: Test this code before building
-      #  run: go test ./...  && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
+      - name: Test this code before building
+        run: go test ./...  && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
       
       - name: docker login
         run: docker login ${{ vars.HARBOR_IP }} -u '${{ vars.HARBOR_ROBOT_USER }}' -p ${{ secrets.HARBOR_SECRET }}
@@ -35,5 +35,5 @@ jobs:
 
       - name: docker build
         run: docker build --build-arg VERSION=${{ env.APP_VERSION }} --build-arg GIT_COMMIT=${{ env.GITHUB_SHA_SHORT }} -t ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }} .
-      - name: docker build
-        run: docker push ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }} .
+      - name: docker push
+        run: docker push ${{ vars.HARBOR_IP }}/production/go-app:${{ env.IMAGE_TAG }}
