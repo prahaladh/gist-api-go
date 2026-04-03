@@ -17,3 +17,19 @@ jobs:
 
       - name: Test this code before building
         run: go test ./...  && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
+      
+      - name: docker login
+        run: docker login ${{ vars.HARBOR_IP }} -u ${{ vars.HARBOR_ROBOT_USER }} -p ${{ secrets.HARBOR_SECRET }}
+
+      - name: HELM login
+        run: helm registry login ${{ vars.HARBOR_IP }} -u ${{ vars.HARBOR_ROBOT_USER }} -p ${{ secrets.HARBOR_SECRET }} --plain-http
+      
+
+      - name: Set env
+        run: |
+          echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+          echo "APP_VERSION=$(cat ./... mainfest.mf | cut -d ':' -f2)" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(echo $GITHUB_SHA_SHORT:APP_VERSION)" >> $GITHUB_ENV
+
+      - name: docker build & push
+        run: docker build --build-arg VERSION=${APP_VERSION} --build-arg GIT_COMMIT=${COMMIT_SHA} -t ${{ vars.HARBOR_IP }}/production/go-app:${IMAGE_TAG} ./...
