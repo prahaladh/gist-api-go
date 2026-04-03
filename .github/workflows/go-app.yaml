@@ -17,15 +17,3 @@ jobs:
 
       - name: Test this code before building
         run: go test ./...  && echo "Test case if success"; exit 0 || ( echo "Test cases failed..."; exit 1)
-      -
-        name: Login to Docker Registry
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push the image to docker hub
-        uses: docker/build-push-action@v6
-        with:
-          tags: ${{ vars.DOCKER_REGISTRY }}:${{ github.ref.GITHUB_SHA }}
-          build-args: GO_BASE_IMAGE=${{ vars.GO_BASE_IMAGE }}
