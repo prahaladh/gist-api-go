@@ -45,4 +45,4 @@ jobs:
       - name: Helm Package & Push
         run: |
          helm package helm ${{ env.app_name }} --version ${{ env.APP_VERSION }} --app-version ${{ env.APP_VERSION }}
-         helm push ${{ env.app_name }}-${{ env.APP_VERSION }}.tgz oci://${{ vars.HARBOR_IP }}/${{ env.app_name }}
+         helm push ${{ env.app_name }}-${{ env.APP_VERSION }}.tgz oci://${{ vars.HARBOR_IP }}/${{ env.app_name }} --plain-http
