@@ -6,7 +6,7 @@ app:
   name: gist-api-go
   image:
     name: gist-api-go
-    tag: 
+    tag: "latest"
   replicas: 2
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
