@@ -5,7 +5,7 @@
 app:
   name: gist-api-go
   image:
-    name: gist-api-go
+    name: 192.168.56.105/gist-api-go/gist-api-go
     tag: "latest"
   replicas: 2
 
