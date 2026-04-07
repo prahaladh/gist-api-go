@@ -44,5 +44,5 @@ jobs:
 
       - name: Helm Package & Push
         run: |
-         helm package helm --version ${{ env.APP_VERSION }}-${{ env.GITHUB_SHA_SHORT }} --app-version ${{ env.APP_VERSION }}
+         helm package helm --version ${{ env.APP_VERSION }} --app-version ${{ env.APP_VERSION }}
          helm push ${{ env.app_name }}-${{ env.APP_VERSION }}.tgz oci://${{ vars.HARBOR_IP }}/${{ env.app_name }} --plain-http
