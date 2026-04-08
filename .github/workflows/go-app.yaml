@@ -33,9 +33,11 @@ jobs:
         run: |
           SHORT_SHA=$(echo $GITHUB_SHA | cut -c 1-6)
           VERSION=$(grep 'APP_VERSION' mainfest.mf | cut -d '=' -f2 | tr -d ' ')
+          HELM=$(grep 'HELM_CHART_VERSION' mainfest.mf | cut -d '=' -f2 | tr -d ' ')
           echo "IMAGE_TAG=${VERSION}-${SHORT_SHA}" >> $GITHUB_ENV
           echo "GITHUB_SHA_SHORT=${SHORT_SHA}" >> $GITHUB_ENV
           echo "APP_VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "HELM_VERSION=${HELM}" >> $GITHUB_ENV
 
       - name: docker build
         run: docker build --build-arg VERSION=${{ env.APP_VERSION }} --build-arg GIT_COMMIT=${{ env.GITHUB_SHA_SHORT }} -t ${{ vars.HARBOR_IP }}/${{ env.app_name }}/${{ env.app_name }}:${{ env.IMAGE_TAG }} .
@@ -44,5 +46,5 @@ jobs:
 
       - name: Helm Package & Push
         run: |
-         helm package helm --version ${{ env.APP_VERSION }} --app-version ${{ env.APP_VERSION }}
-         helm push ${{ env.app_name }}-${{ env.APP_VERSION }}.tgz oci://${{ vars.HARBOR_IP }}/${{ env.app_name }} --plain-http
+         helm package helm --version ${{ env.HELM_VERSION }} --app-version ${{ env.HELM_VERSION }}
+         helm push ${{ env.app_name }}-${{ env.HELM_VERSION }}.tgz oci://${{ vars.HARBOR_IP }}/${{ env.app_name }} --plain-http
