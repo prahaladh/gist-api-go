@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Gist matches the GitHub API response structure I am using simply for demonstration. You can expand it with more fields if needed.
+/// Gist matches the GitHub API response structure I am using simply for demonstration. You can expand it with more fields if needed.
 type Gist struct {
 	URL         string `json:"html_url"`
 	Description string `json:"description"`
